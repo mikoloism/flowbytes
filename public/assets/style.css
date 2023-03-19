@@ -1,0 +1,20 @@
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+	display: flex;
+	flex-wrap: wrap;
+	flex-direction: column;
+
+	width: 100vw;
+	height: 99.99vh;
+	overflow: hidden;
+
+	background: white;
+	color: black;
+}
