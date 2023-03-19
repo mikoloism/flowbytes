@@ -1,55 +1,63 @@
 type Vertical = 'top' | 'bottom';
 type Horizontal = 'left' | 'right';
-type PointOfGravity = `${Vertical}-${Horizontal}` | 'center';
-
-// TODO : shape-size
-const SHAPE_SIZE = 100;
+export type PointOfGravity = `${Vertical}-${Horizontal}` | 'center';
 
 export default class Position {
+	public readonly PADDING: number = 5;
 	public startPoint!: Point;
 	public endPoint!: Point;
+	public x: number;
+	public y: number;
 
-	public constructor(public x: number, public y: number) {
-		this.calculate('top-left');
+	public constructor(x: number, y: number) {
+		this.x = x - this.PADDING;
+		this.y = y - this.PADDING;
+		this.calcPoint('top-left');
 	}
 
-	public calculate(pog: PointOfGravity): void {
+	public calcPoint(
+		pog: PointOfGravity,
+		shapeWidth: number = 50,
+		shapeHeight?: number,
+	): void {
+		shapeHeight = shapeHeight ?? shapeWidth;
+
 		switch (pog) {
 			case 'center':
 				this.startPoint = new Point(
-					this.x - SHAPE_SIZE / 2,
-					this.y - SHAPE_SIZE / 2,
+					this.x - shapeWidth / 2,
+					this.y - shapeHeight / 2,
 				);
 				this.endPoint = new Point(
-					this.x + SHAPE_SIZE / 2,
-					this.y + SHAPE_SIZE / 2,
+					this.x + shapeWidth / 2,
+					this.y + shapeHeight / 2,
 				);
 				break;
 
 			case 'bottom-left':
-				this.startPoint = new Point(this.x, this.y - SHAPE_SIZE);
-				this.endPoint = new Point(this.x + SHAPE_SIZE, this.y);
+				this.startPoint = new Point(this.x, this.y - shapeHeight);
+				this.endPoint = new Point(this.x + shapeWidth, this.y);
 				break;
 
 			case 'bottom-right':
 				this.startPoint = new Point(
-					this.x - SHAPE_SIZE,
-					this.y - SHAPE_SIZE,
+					this.x - shapeWidth,
+					this.y - shapeHeight,
 				);
 				this.endPoint = new Point(this.x, this.y);
 				break;
 
 			case 'top-right':
-				this.startPoint = new Point(this.x - SHAPE_SIZE, this.y);
-				this.endPoint = new Point(this.x, this.y + SHAPE_SIZE);
+				this.startPoint = new Point(this.x - shapeWidth, this.y);
+				this.endPoint = new Point(this.x, this.y + shapeHeight);
 				break;
 
 			case 'top-left':
 			default:
 				this.startPoint = new Point(this.x, this.y);
 				this.endPoint = new Point(
-					this.x + SHAPE_SIZE,
-					this.y + SHAPE_SIZE,
+					this.x + shapeWidth,
+					this.y + shapeHeight,
 				);
 				break;
 		}
