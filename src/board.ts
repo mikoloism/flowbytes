@@ -13,9 +13,21 @@ class Board {
 				this.shapes.set(shape.id, shape);
 			})
 			.then(() => {
-				this.canvas.redraw(this.shapes);
+				this.render();
 			});
 		return this;
+	}
+
+	public render(): this {
+		this.canvas.redraw(this.shapes);
+		return this;
+	}
+
+
+	public remove(shapeId: string): boolean {
+		if (!this.shapes.has(shapeId)) return false;
+
+		return this.shapes.delete(shapeId);
 	}
 }
 
