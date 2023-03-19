@@ -9,12 +9,8 @@ class Board {
 
 	public insert(shape: Shape): this {
 		Promise.resolve(true)
-			.then(() => {
-				this.shapes.set(shape.id, shape);
-			})
-			.then(() => {
-				this.render();
-			});
+			.then(() => this.shapes.set(shape.id, shape))
+			.then(() => this.render());
 		return this;
 	}
 
