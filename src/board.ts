@@ -1,5 +1,5 @@
 import Canvas from './canvas';
-import type { Shape } from './shape';
+import type { Position, Shape } from './shape';
 
 class Board {
 	private readonly shapes: BoardStorage;
@@ -19,6 +19,23 @@ class Board {
 		return this;
 	}
 
+	public inRange(clickPoint: Position): Shape | null {
+		const shapes = Array.from(this.shapes);
+		let inRangeShape = shapes.filter(([_, shape]: [string, Shape]) => {
+			const shapeStartPoint = shape.position.startPoint;
+			const shapeEndPoint = shape.position.endPoint;
+			const inVerticalRange =
+				shapeStartPoint.x < clickPoint.x &&
+				shapeEndPoint.x > clickPoint.x;
+			const inHorizontalRange =
+				shapeStartPoint.y < clickPoint.y &&
+				shapeEndPoint.y > clickPoint.y;
+			return inVerticalRange && inHorizontalRange;
+		});
+
+		if (inRangeShape.length === 0) return null;
+		return inRangeShape[0][1];
+	}
 
 	public remove(shapeId: string): boolean {
 		if (!this.shapes.has(shapeId)) return false;
