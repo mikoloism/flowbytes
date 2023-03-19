@@ -30,9 +30,15 @@ class Canvas {
 	}
 
 	public redraw(shapes: BoardStorage) {
-		shapes.forEach((shape: Shape) => {
-			this.draw(shape);
-		});
+		Promise.resolve(true)
+			.then(() => {
+				this.$.clearRect(0, 0, this.element.width, this.element.height);
+			})
+			.then(() => {
+				shapes.forEach((shape: Shape) => {
+					this.draw(shape);
+				});
+			});
 	}
 
 	public resize(): void {
