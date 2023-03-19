@@ -27,7 +27,11 @@ class Board {
 	public remove(shapeId: string): boolean {
 		if (!this.shapes.has(shapeId)) return false;
 
-		return this.shapes.delete(shapeId);
+		let isDeleted = false;
+		Promise.resolve(true)
+			.then(() => (isDeleted = this.shapes.delete(shapeId)))
+			.then(() => this.render());
+		return isDeleted;
 	}
 }
 
