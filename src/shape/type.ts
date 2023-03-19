@@ -1,6 +1,6 @@
-import Rectangle from './rectangle';
-import Square from './square';
-import Triangle from './triangle';
-import Circle from './circle';
+import Circle from './shapes/circle';
+import Rectangle from './shapes/rectangle';
+import Square from './shapes/square';
+import Triangle from './shapes/triangle';
 
-export type Shape = Rectangle | Square | Triangle | Circle;
+export type Shape = Circle | Rectangle | Square | Triangle;

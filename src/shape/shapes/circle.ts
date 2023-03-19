@@ -1,5 +1,5 @@
-import BaseShape, { ShapeKind } from './base';
-import Position from './position';
+import BaseShape, { ShapeKind } from '../helpers/base';
+import Position from '../helpers/position';
 
 export default class Circle extends BaseShape {
 	public type: ShapeKind = ShapeKind.CIRCLE;

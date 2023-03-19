@@ -1,8 +1,8 @@
-import BaseShape, { ShapeKind } from './base';
-import Position from './position';
+import BaseShape, { ShapeKind } from '../helpers/base';
+import Position from '../helpers/position';
 
-export default class Rectangle extends BaseShape {
-	public type: ShapeKind = ShapeKind.RECTANGLE;
+export default class Triangle extends BaseShape {
+	public type: ShapeKind = ShapeKind.TRIANGLE;
 
 	public constructor(public position: Position) {
 		super();
