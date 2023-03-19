@@ -1,4 +1,5 @@
 import BaseShape, { ShapeKind } from '../helpers/base';
+import Color from '../helpers/color';
 import Position from '../helpers/position';
 
 export default class Square extends BaseShape {
@@ -9,7 +10,15 @@ export default class Square extends BaseShape {
 	}
 
 	public draw($: CanvasRenderingContext2D): void {
-		$.beginPath();
-		$.fillRect(this.position.x, this.position.y, 100, 100);
+		const startPoint = this.position.startPoint;
+		const color = Color.createSchema(this.color);
+
+		let shape = new Path2D();
+		shape.rect(startPoint.x, startPoint.y, 100, 100);
+		$.fillStyle = color.fill;
+		$.fill(shape);
+		$.lineWidth = 10;
+		$.strokeStyle = color.stroke;
+		$.stroke(shape);
 	}
 }
