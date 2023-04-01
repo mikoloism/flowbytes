@@ -1,26 +1,16 @@
-import type { Operator, BaseOperator } from './base';
+import { BaseOperator, type Operator } from './base';
 
-interface PipeOperator<I, O> extends BaseOperator<I, O> {
-	to<T>(nextOperator: Operator<O, T>): PipeOperator<I, T>;
+interface PipeInterface<I, O> {
+	to<T>(nextOperator: Operator<O, T>): PipeInterface<I, T>;
 }
 
-class Pipe<I, O> implements PipeOperator<I, O> {
-	private operator: Operator<I, O>;
-
+class Pipe<I, O> extends BaseOperator<I, O> implements PipeInterface<I, O> {
 	public constructor(operator: Operator<I, O>) {
-		this.operator = operator;
+		super(operator);
 	}
 
-	public to<T>(nextOperator: Operator<O, T>): PipeOperator<I, T> {
+	public to<T>(nextOperator: Operator<O, T>): PipeInterface<I, T> {
 		return new Pipe<I, T>((input: I) => nextOperator(this.compute(input)));
-	}
-
-	public build(): Operator<I, O> {
-		return this.operator;
-	}
-
-	public compute(input: I): O {
-		return this.operator(input);
 	}
 }
 

@@ -1,26 +1,19 @@
-import type { Operator, BaseOperator } from './base';
+import { BaseOperator, type Operator } from './base';
 
-interface ComposeOperator<I, O> extends BaseOperator<I, O> {
-	from<T>(prevOperator: Operator<T, I>): ComposeOperator<T, O>;
+interface ComposeInterface<I, O> {
+	from<T>(prevOperator: Operator<T, I>): ComposeInterface<T, O>;
 }
 
-class Compose<I, O> implements ComposeOperator<I, O> {
-	private operator: Operator<I, O>;
-
+class Compose<I, O>
+	extends BaseOperator<I, O>
+	implements ComposeInterface<I, O>
+{
 	public constructor(operator: Operator<I, O>) {
-		this.operator = operator;
+		super(operator);
 	}
 
-	public from<T>(prevOperator: Operator<T, I>): ComposeOperator<T, O> {
+	public from<T>(prevOperator: Operator<T, I>): ComposeInterface<T, O> {
 		return new Compose((input: T) => this.compute(prevOperator(input)));
-	}
-
-	public build(): Operator<I, O> {
-		return this.operator;
-	}
-
-	public compute(input: I): O {
-		return this.operator(input);
 	}
 }
 
