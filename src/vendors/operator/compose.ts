@@ -12,7 +12,7 @@ class Compose<I, O>
 		super(operator);
 	}
 
-	public from<T>(prevOperator: Operator<T, I>): ComposeInterface<T, O> {
+	public from<T>(prevOperator: Operator<T, I>): Compose<T, O> {
 		return new Compose((input: T) => this.compute(prevOperator(input)));
 	}
 }

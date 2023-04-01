@@ -9,7 +9,7 @@ class Pipe<I, O> extends BaseOperator<I, O> implements PipeInterface<I, O> {
 		super(operator);
 	}
 
-	public to<T>(nextOperator: Operator<O, T>): PipeInterface<I, T> {
+	public to<T>(nextOperator: Operator<O, T>): Pipe<I, T> {
 		return new Pipe<I, T>((input: I) => nextOperator(this.compute(input)));
 	}
 }
