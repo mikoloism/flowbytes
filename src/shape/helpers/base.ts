@@ -1,9 +1,11 @@
 import * as uuid from 'uuid';
 import Color from './color';
-import Position from './position';
+import type Position from '../../vendors/position';
+import type { ShapeId } from '../types';
+import { ShapeKind } from './kind';
 
 abstract class BaseShape {
-	public readonly id: string;
+	public readonly id: ShapeId;
 	public abstract readonly type: ShapeKind;
 	public abstract position: Position;
 	public color: Color = Color.BLACK;
@@ -13,13 +15,6 @@ abstract class BaseShape {
 	}
 
 	public abstract draw($: CanvasRenderingContext2D): void | this;
-}
-
-export enum ShapeKind {
-	RECTANGLE = 'rectangle',
-	SQUARE = 'square',
-	TRIANGLE = 'triangle',
-	CIRCLE = 'circle',
 }
 
 export default BaseShape;
