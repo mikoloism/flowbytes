@@ -1,84 +1,51 @@
-import Board from './board';
-import Canvas from './canvas';
-import { Circle, Color, Position, Rectangle, Square, Triangle } from './shape';
+import runApp from 'vendors/app';
+import Board from 'board';
 
-function initialize() {
-	let isSelected = false;
-	let Shape: any = Square;
-	let PoG: any;
-	let color: Color = Color.BLACK;
-	const canvas = Canvas.createCanvas('#app');
-	const board = new Board(canvas);
+import CacheStorage from 'storage/cache';
+import task from 'vendors/task';
 
-	window.addEventListener('keypress', (event: KeyboardEvent) => {
-		if (event.key === 'c') Shape = Circle;
-		else if (event.key === 'r') Shape = Rectangle;
-		else if (event.key === 's') Shape = Square;
-		else if (event.key === 't') Shape = Triangle;
-		else if (event.key === '1') PoG = 'top-right';
-		else if (event.key === '2') PoG = 'top-left';
-		else if (event.key === '3') PoG = 'center';
-		else if (event.key === '4') PoG = 'bottom-right';
-		else if (event.key === '5') PoG = 'bottom-left';
-		else if (event.key === 'd') color = Color.RED;
-		else if (event.key === 'b') color = Color.BLUE;
-		else if (event.key === 'k') color = Color.BLACK;
-		else if (event.key === 'g') color = Color.GREEN;
-		else if (event.key === 'y') color = Color.YELLOW;
-	});
+import withKeyPress from 'event::keypress';
+import withClick from 'event::click';
+import Keyboard from 'event::enums';
 
-	document.addEventListener('mousemove', (event: MouseEvent) => {
-		const { x, y } = event;
+import type { Shape } from 'shape::base';
+import Square from 'shape::square';
+import Circle from 'shape::circle';
+import Position from 'vendors/position';
 
-		if (isSelected === false) return;
+let self: App;
 
-		let inRange = board.inRange(new Position(x, y));
+class App {
+	private cache: CacheStorage<Shape, 'shape'>;
+	private board: Board;
 
-		if (inRange === null) return;
+	public constructor() {
+		self = this;
+		this.cache = CacheStorage.new<Shape, 'shape'>('shape', null as any);
+		this.board = new Board();
+	}
 
-		inRange.position = new Position(x, y);
-		board.render();
-	});
+	@withClick(document)
+	public on_click({ x, y }: MouseEvent) {
+		if (self.cache.isEmpty()) return;
+		task().then(() => {
+			const shape = self.cache.get()!;
+			shape.setPosition(new Position(x, y));
+			self.board.insert(shape);
+		});
+	}
 
-	document.addEventListener('mouseup', (event: MouseEvent) => {
-		if (isSelected === false) return;
+	@withKeyPress(Keyboard.KeyS)
+	set_square_as_shape(): void {
+		const square = new Square();
+		self.cache.set(square);
+	}
 
-		let inRange = board.inRange(new Position(event.x, event.y));
-
-		if (inRange === null) return;
-		isSelected = false;
-		inRange.color = Color.BLACK;
-		board.render();
-	});
-
-	document.addEventListener('mousedown', (event: MouseEvent) => {
-		if (isSelected === true) return;
-
-		let inRange = board.inRange(new Position(event.x, event.y));
-
-		if (inRange === null) return;
-		isSelected = true;
-		inRange.color = Color.GREEN;
-		board.render();
-	});
-
-	document.addEventListener('click', (event: MouseEvent) => {
-		const { x, y } = event;
-		let inRange = board.inRange(new Position(x, y));
-
-		if (inRange === null) {
-			const shape = new Shape(new Position(x, y));
-			shape.color = color;
-			shape.pointOfGravity = PoG;
-			board.insert(shape);
-		} else {
-			// board.render();
-		}
-	});
+	@withKeyPress(Keyboard.KeyR)
+	set_circle_as_shape(): void {
+		const circle = new Circle();
+		self.cache.set(circle);
+	}
 }
 
-function app() {
-	initialize();
-}
-
-document.addEventListener('readystatechange', app);
+runApp(App);
