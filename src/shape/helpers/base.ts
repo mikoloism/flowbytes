@@ -1,7 +1,8 @@
+import type { Svg } from '@svgdotjs/svg.js';
 import * as uuid from 'uuid';
-import Color from './color';
-import type Position from '../../vendors/position';
+import type Position from 'vendors/position';
 import type { ShapeId } from '../types';
+import Color from './color';
 import { ShapeKind } from './kind';
 
 abstract class BaseShape {
@@ -14,7 +15,11 @@ abstract class BaseShape {
 		this.id = uuid.v4();
 	}
 
-	public abstract draw($: CanvasRenderingContext2D): void | this;
+	public setPosition(position: Position) {
+		this.position = position;
+	}
+
+	public abstract draw($: Svg): void | this;
 }
 
 export default BaseShape;
