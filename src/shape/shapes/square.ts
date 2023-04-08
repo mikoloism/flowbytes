@@ -1,27 +1,46 @@
-import BaseShape, { ShapeKind } from '../helpers/base';
+import type { Rect, Svg } from '@svgdotjs/svg.js';
+import Position from 'vendors/position';
+
+import BaseShape from '../helpers/base';
 import Color from '../helpers/color';
-import Position, { type PointOfGravity } from '../helpers/position';
+import { ShapeKind } from '../helpers/kind';
 
 export default class Square extends BaseShape {
 	public type: ShapeKind = ShapeKind.SQUARE;
 	public size: number = 100;
-	public pointOfGravity: PointOfGravity = 'center';
+	public position!: Position;
+	public self!: Rect;
 
-	public constructor(public position: Position) {
+	public constructor() {
 		super();
 	}
 
-	public draw($: CanvasRenderingContext2D): void {
-		this.position.calcPoint(this.pointOfGravity, this.size);
-		const startPoint = this.position.startPoint;
+	public on_mousedown() {
 		const color = Color.createSchema(this.color);
+		this.self.fill(color.stroke);
+		this.self.stroke(color.fill);
+	}
 
-		let shape = new Path2D();
-		shape.rect(startPoint.x, startPoint.y, this.size, this.size);
-		$.fillStyle = color.fill;
-		$.fill(shape);
-		$.lineWidth = 10;
-		$.strokeStyle = color.stroke;
-		$.stroke(shape);
+	public on_mouseup() {
+		const color = Color.createSchema(this.color);
+		this.self.fill(color.fill);
+		this.self.stroke(color.stroke);
+	}
+
+	public draw($: Svg): void {
+		this.position.calcPoint('center', this.size, this.size);
+		const color = Color.createSchema(this.color);
+		const point = this.position.startPoint;
+
+		this.self = $.rect(this.size, this.size);
+		this.self.move(point.x, point.y).attr({
+			fill: color.fill,
+			stroke: color.stroke,
+			strokeWidth: 5,
+			'data-id': this.id,
+		});
+
+		this.self.on('mousedown', this.on_mousedown.bind(this));
+		this.self.on('mouseup', this.on_mouseup.bind(this));
 	}
 }
