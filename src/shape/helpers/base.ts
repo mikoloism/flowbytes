@@ -12,7 +12,11 @@ abstract class BaseShape {
 	public color: Color = Color.BLACK;
 
 	public constructor() {
-		this.id = uuid.v4();
+		this.id = this.generateId();
+	}
+
+	protected generateId(): ShapeId {
+		return uuid.v4();
 	}
 
 	public setPosition(position: Position) {
