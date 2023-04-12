@@ -1,16 +1,18 @@
-import runApp from 'vendors/app';
 import Board from 'board';
+import runApp from 'vendors/app';
 
 import CacheStorage from 'storage/cache';
 import task from 'vendors/task';
 
-import withKeyPress from 'event::keypress';
 import withClick from 'event::click';
 import Keyboard from 'event::enums';
+import withKeyPress from 'event::keypress';
 
 import type { Shape } from 'shape::base';
-import Square from 'shape::square';
 import Circle from 'shape::circle';
+import Rectangle from 'shape::rectangle';
+import Square from 'shape::square';
+import Triangle from 'shape::triangle';
 import Position from 'vendors/position';
 
 let self: App;
@@ -35,16 +37,28 @@ class App {
 		});
 	}
 
-	@withKeyPress(Keyboard.KeyS)
+	@withKeyPress([Keyboard.KeyS, Keyboard.Digit1])
 	set_square_as_shape(): void {
 		const square = new Square();
 		self.cache.set(square);
 	}
 
-	@withKeyPress(Keyboard.KeyR)
+	@withKeyPress([Keyboard.KeyR, Keyboard.Digit2])
+	set_rectangle_as_shape(): void {
+		const rectangle = new Rectangle();
+		self.cache.set(rectangle);
+	}
+
+	@withKeyPress([Keyboard.KeyC, Keyboard.Digit3])
 	set_circle_as_shape(): void {
 		const circle = new Circle();
 		self.cache.set(circle);
+	}
+
+	@withKeyPress([Keyboard.KeyT, Keyboard.Digit4])
+	set_triangle_as_shape(): void {
+		const triangle = new Triangle();
+		self.cache.set(triangle);
 	}
 }
 
