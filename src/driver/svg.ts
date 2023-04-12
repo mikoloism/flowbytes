@@ -1,7 +1,12 @@
 import { SVG } from '@svgdotjs/svg.js';
 
 class SvgDriver {
-	private constructor() {}
+	public width: number;
+	public height: number;
+	private constructor() {
+		this.width = window.innerWidth;
+		this.height = window.innerHeight;
+	}
 
 	public static new() {
 		return SVG()
