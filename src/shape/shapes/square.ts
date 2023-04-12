@@ -1,4 +1,4 @@
-import type { Rect, Svg } from '@svgdotjs/svg.js';
+import type { Svg, Rect as SvgRect } from '@svgdotjs/svg.js';
 import Position from 'vendors/position';
 
 import BaseShape from '../helpers/base';
@@ -9,23 +9,7 @@ export default class Square extends BaseShape {
 	public type: ShapeKind = ShapeKind.SQUARE;
 	public size: number = 100;
 	public position!: Position;
-	public self!: Rect;
-
-	public constructor() {
-		super();
-	}
-
-	public on_mousedown() {
-		const color = Color.createSchema(this.color);
-		this.self.fill(color.stroke);
-		this.self.stroke(color.fill);
-	}
-
-	public on_mouseup() {
-		const color = Color.createSchema(this.color);
-		this.self.fill(color.fill);
-		this.self.stroke(color.stroke);
-	}
+	private self!: SvgRect;
 
 	public draw($: Svg): void {
 		this.position.calcPoint('center', this.size, this.size);
@@ -39,8 +23,12 @@ export default class Square extends BaseShape {
 			strokeWidth: 5,
 			'data-id': this.id,
 		});
-
-		this.self.on('mousedown', this.on_mousedown.bind(this));
-		this.self.on('mouseup', this.on_mouseup.bind(this));
 	}
+
+	protected on_click(): void {}
+	protected on_mousedown(): void {}
+	protected on_mouseenter(): void {}
+	protected on_mouseleave(): void {}
+	protected on_mousemove(): void {}
+	protected on_mouseup(): void {}
 }
