@@ -1,14 +1,12 @@
+import withError from 'vendors/exception';
+
 enum ShapeError {
-	SHAPE_NOT_IMPLEMENTED = 'the Shape instance not implemented',
-	SHAPE_NOT_RESOLVED = 'the Shape instance not resolved at moment',
+	NOT_IMPLEMENTED = 'the Shape instance not implemented',
+	NOT_RESOLVED = 'the Shape instance not resolved at moment',
 }
 
-class ShapeException extends Error {
-	public constructor(message: ShapeError) {
-		super(message);
-		super.name = 'ShapeException';
-	}
-}
+@withError()
+class ShapeException extends Error {}
 
 export default ShapeError;
 export { ShapeException };
