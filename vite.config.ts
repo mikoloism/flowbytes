@@ -25,6 +25,7 @@ export default defineConfig({
 			/** vendors scope  */
 			'vendors/position': '/src/vendors/position/index.ts',
 			'vendors/exception': '/src/vendors/exception',
+			'vendors/package': '/src/vendors/package',
 			'vendors/app': '/src/vendors/startup/index.ts',
 
 			/** vendors:storage scope */
