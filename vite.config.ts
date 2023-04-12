@@ -11,10 +11,10 @@ export default defineConfig({
 			'shape::triangle': '/src/shape/shapes/triangle.ts',
 
 			/** event scope */
-			'events::click': '/src/dom-events/events/click.ts',
-			'events::keydown': '/src/dom-events/events/keydown.ts',
-			'events::keypress': '/src/dom-events/events/keypress.ts',
-			'events::enums': '/src/dom-events/helpers/keyboard.enum.ts',
+			'event::click': '/src/dom-events/events/click.ts',
+			'event::keydown': '/src/dom-events/events/keydown.ts',
+			'event::keypress': '/src/dom-events/events/keypress.ts',
+			'event::enums': '/src/dom-events/helpers/keyboard.enum.ts',
 
 			/** vendors:operator scope */
 			'vendors/pipe': '/src/vendors/operator/pipe.ts',
