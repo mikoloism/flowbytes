@@ -14,6 +14,7 @@ import Rectangle from 'shape::rectangle';
 import Square from 'shape::square';
 import Triangle from 'shape::triangle';
 import Position from 'vendors/position';
+import { GridStyle } from 'vendors/package';
 
 let self: App;
 
@@ -25,6 +26,7 @@ class App {
 		self = this;
 		this.cache = CacheStorage.new<Shape, 'shape'>('shape', null as any);
 		this.board = new Board();
+		this.board.generateGrid(GridStyle.MIX_COLOR_BULLET, ['#930', '#369']);
 	}
 
 	@withClick(document)
